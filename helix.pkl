@@ -18,8 +18,8 @@ class StatusLine {
     mode: Mode
 }
 
-
 class Editor {
+    /// Number of lines of padding around the edge of the screen when scrolling
     scrolloff: UInt = 5
     mouse: Boolean = true
     `middle-click-paste`: Boolean = true
