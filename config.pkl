@@ -4,7 +4,7 @@ editor{
     mouse = false
     `line-number` = "relative" 
     statusline {
-        left = List("version-control")
+    left = List("mode", "spinner", "separator", "spacer", "version-control", "read-only-indicator", "file-modification-indicator")
         mode {
             normal = "NORMAL"
             insert = "INSERT"
@@ -16,5 +16,11 @@ editor{
     bufferline = "always"
     `color-modes` = true
     `cursor-shape` {
+        normal = "block"
+        insert = "bar"
+        select = "underline"
+    }
+    `auto-pairs` = new {
+        `<` = "4"
     }
 }

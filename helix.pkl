@@ -1,7 +1,6 @@
 import "package://pkg.pkl-lang.org/pkl-pantry/pkl.toml@1.0.0#/toml.pkl"
-
 output {
-  renderer = new toml.Renderer {}
+ renderer = new toml.Renderer {}
 }
 
 typealias LineNumbers = "absolute" | "relative" 
@@ -16,10 +15,11 @@ typealias StatusLineElements = "mode" | "spinner" | "file-name" |
 
 typealias Gutters = "diagnostics" | "spacer" | "line-numbers" | "diff" 
 
-
 typealias Bufferline = "never" | "always" | "multiple"
 
 typealias CursorShapes = "block" | "bar" | "underline" | "hidden"
+
+typealias LineEndings = "native" | "lf" | "crlf" | "ff" | "cr" | "nel"
 
 class Mode {
     /// The text shown in the mode element for normal mode
@@ -58,6 +58,58 @@ class CursorShape {
 
     /// Cursor shape in select mode
     select: Null | CursorShapes = null
+}
+
+class Lsp {
+    /// Enables LSP integration. Setting to false will completely disable language servers regardless of language settings.
+    enable: Null | Boolean = null
+
+    /// Display LSP progress messages below statusline
+    `display-messages`: Null | Boolean = null
+
+    /// Display inlay hints
+    `auto-signature-help`: Null | Boolean = null
+
+    /// Display docs under signature help popup
+    `display-inlay-hints`: Null | Boolean = null
+
+    /// Display docs under signature help popup 
+    `display-signature-help-docs`: Null | Boolean = null
+
+    /// Enables snippet completions. Requires a server restart (:lsp-restart) to take effect after :config-reload/:set.
+    `snippets`: Null | Boolean = null
+
+    /// Include declaration in the goto references popup
+    `goto-reference-include-declaration`: Null | Boolean = null
+}
+
+class FilePicker {
+    /// Enables ignoring hidden files
+    `hidden`: Null | Boolean = null 
+
+    /// Follow symlinks instead of ignoring them
+    `follow-symlinks`: Null | Boolean = null
+
+    /// Ignore symlinks that point at files already shown in the picker
+    `deduplicate-links`: Null | Boolean = null
+
+    /// Enables reading ignore files from parent directories
+    parents: Null | Boolean = null
+
+    /// Enables reading .ignore files
+    ignore: Null | Boolean = null
+
+    /// Enables reading .gitignore files
+    `git-ignore`: Null | Boolean = null
+
+    /// Enables reading global .gitignore, whose path is specified in git's config: core.excludefile option
+    `git-global`: Null | Boolean = null
+
+    /// Enables reading .git/info/exclude files
+    `git-exclude`: Null | Boolean = null
+
+    /// Set with an integer value for maximum depth to recurse
+    `max-depth`: Null | UInt | "None" = null
 }
 
 class Editor {
@@ -132,13 +184,28 @@ class Editor {
 
     /// Directories relative to the workspace root that are treated as LSP roots. Should only be set in .helix/config.toml
     `workspace-lsp-roots`: Null | List<String> = null
-    
+
+    /// The line ending to use for new documents. Can be native, lf, crlf, ff, cr or nel. native uses the platform's native line ending (crlf on Windows, otherwise lf).
+    `default-line-ending`: Null | LineEndings = null 
+
+    /// Whether to automatically insert a trailing line-ending on write if missing
+    `insert-final-newline`: Null | Boolean = null
+
     /// Allows configuring the statusline at the bottom of the editor.
     statusline: StatusLine
 
+    /// LSP options
+    lsp: Lsp
+
     /// Defines the shape of cursor in each mode. Valid values for these options are block, bar, underline, or hidden.
     `cursor-shape`: CursorShape
+    
+    /// Set options for file picker and global search. Ignoring a file means it is not visible in the Helix file picker and global search.
+    `file-picker`: FilePicker
+
+    `auto-pairs`: Dynamic = new {} 
 }
+
 
 editor: Editor
 
