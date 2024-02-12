@@ -4,7 +4,7 @@ output {
   renderer = new toml.Renderer {}
 }
 
-typealias LineNumbers ="absolute" | "relative" 
+typealias LineNumbers = "absolute" | "relative" 
 
 typealias StatusLineElements = "mode" | "spinner" | "file-name" |
 "file-base-name" | "file-modification-indicator" | "file-encoding" |
@@ -14,109 +14,129 @@ typealias StatusLineElements = "mode" | "spinner" | "file-name" |
 "spacer" | "version-control" | "register"
 
 
-typealias Gutters = "diagnostics" |
-"spacer" | "line-numbers" | "diff" typealias Bufferline = "never" | "always" |
-"multiple"
+typealias Gutters = "diagnostics" | "spacer" | "line-numbers" | "diff" 
+
+
+typealias Bufferline = "never" | "always" | "multiple"
 
 typealias CursorShapes = "block" | "bar" | "underline" | "hidden"
 
 class Mode {
-    normal: String = "NOR"
-    insert: String = "INS"
-    select: String = "SEL"
+    /// The text shown in the mode element for normal mode
+    normal: Null | String = null
+
+    /// The text shown in the mode element for insert mode
+    insert: Null | String = null
+
+    /// The text shown in the mode element for select mode
+    select: Null | String = null
 }
 
 class StatusLine {
-    left: List<StatusLineElements> = List("mode", "spinner", "file-name", "read-only-indicator", "file-modification-indicator")
-    center: List<StatusLineElements> = List()
-    right: List<StatusLineElements> = List("diagnostics", "selections", "register", "position", "file-encoding")
-    separator: String = "|"
+    /// A list of elements aligned to the left of the statusline
+    left: Null | List<StatusLineElements> = null
+
+    /// A list of elements aligned to the middle of the statusline
+    center: Null | List<StatusLineElements> = null
+
+    /// A list of elements aligned to the right of the statusline
+    right: Null | List<StatusLineElements> = null
+
+    /// The character used to separate elements in the statusline
+    separator: Null | String = null
+
+    /// The current editor mode
     mode: Mode
 }
 
 class CursorShape {
-    normal: CursorShapes = "block" 
-    insert: CursorShapes = "block" 
-    select: CursorShapes = "block" 
+    /// Cursor shape in normal mode
+    normal: Null | CursorShapes = null 
+
+    /// Cursor shape in normal mode
+    insert: Null | CursorShapes = null
+
+    /// Cursor shape in select mode
+    select: Null | CursorShapes = null
 }
 
 class Editor {
-
     /// Number of lines of padding around the edge of the screen when scrolling
-    scrolloff: UInt = 5
+    scrolloff: Null | UInt = null 
 
     /// Enable mouse mode
-    mouse: Boolean = true
+    mouse: Null | Boolean = null 
 
     /// Middle click paste support
-    `middle-click-paste`: Boolean = true
+    `middle-click-paste`: Null | Boolean = null
 
     /// Number of lines to scroll per scroll wheel step
-    `scroll-lines`: UInt = 3
+    `scroll-lines`: Null | UInt = null
 
     /// Shell to use when running external commands
-    shell: List<String> = List("sh", "-c") 
+    shell: Null | List<String> = null  
 
     /// Line number display: absolute simply shows each line's number, while relative shows the distance from the current line. When unfocused or in insert mode, relative will still show absolute line numbers
-    `line-number`: LineNumbers = "absolute"
+    `line-number`: Null | LineNumbers = null
     
     /// Highlight all lines with a cursor
-    cursorline: Boolean = false
+    cursorline: Null | Boolean = null
 
     /// Highlight all columns with a cursor
-    cursorcolumn: Boolean = false
+    cursorcolumn: Null | Boolean = null
 
     /// Gutters to display: Available are diagnostics and diff and line-numbers and spacer, note that diagnostics also includes other features like breakpoints, 1-width padding will be inserted if gutters is non-empty
-    gutters: List<Gutters> = List("diagnostics", "spacer", "line-numbers", "spacer", "diff")
+    gutters: Null | List<Gutters> = null
 
     /// Enable automatic pop up of auto-completion
-    `auto-completion`: Boolean = true
+    `auto-completion`: Null | Boolean = null
 
     /// Enable automatic formatting on save
-    `auto-format`: Boolean = true
+    `auto-format`: Null | Boolean = null
 
     /// Enable automatic saving on the focus moving away from Helix. Requires focus event support from your terminal
-    `auto-save`: Boolean = false
+    `auto-save`: Null | Boolean = null
 
     /// Time in milliseconds since last keypress before idle timers trigger. Used for autocompletion, set to 0 for instant
-    `idle-timeout`: UInt = 400
+    `idle-timeout`: Null | UInt = null
 
     /// Whether to apply completion item instantly when selected
-    `preview-completion-insert`: Boolean = true
+    `preview-completion-insert`: Null | Boolean = null
 
     /// The min-length of word under cursor to trigger autocompletion
-    `completion-trigger-len`: UInt = 2
+    `completion-trigger-len`: Null | UInt = null
 
     /// Set to true to make completions always replace the entire word and not just the part before the cursor
-    `completion-replace`: Boolean = false
+    `completion-replace`: Null | Boolean = null
 
     /// Whether to display info boxes
-    `auto-info`: Boolean = true
+    `auto-info`: Null | Boolean = null
 
     /// Set to true to override automatic detection of terminal truecolor support in the event of a false negative
-    `true-color`: Boolean = false
+    `true-color`: Null | Boolean = null
 
     /// Set to true to override automatic detection of terminal undercurl support in the event of a false negative
-    `undercurl`: Boolean = false
+    `undercurl`: Null | Boolean = null
     
     /// List of column positions at which to display the rulers. Can be overridden by language specific rulers in languages.toml file
-    rulers: List<UInt> = List()
+    rulers: Null | List<UInt> = null
 
     /// Renders a line at the top of the editor displaying open buffers. Can be always, never or multiple (only shown if more than one buffer is in use)
-    bufferline: Bufferline = "never"
+    bufferline: Null | Bufferline = null
 
     /// Whether to color the mode indicator with different colors depending on the mode itself
-    `color-modes`: Boolean = false
+    `color-modes`: Null | Boolean = null
 
     // Maximum line length. Used for the :reflow command and soft-wrapping if soft-wrap.wrap-at-text-width is set
-    `text-width`: UInt = 80
+    `text-width`: Null | UInt = null
 
     /// Directories relative to the workspace root that are treated as LSP roots. Should only be set in .helix/config.toml
-    `workspace-lsp-roots`: List<String> = List()
+    `workspace-lsp-roots`: Null | List<String> = null
     
-    
-
+    /// Allows configuring the statusline at the bottom of the editor.
     statusline: StatusLine
+
+    /// Defines the shape of cursor in each mode. Valid values for these options are block, bar, underline, or hidden.
     `cursor-shape`: CursorShape
 }
 
