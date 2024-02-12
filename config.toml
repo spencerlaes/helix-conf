@@ -1,12 +1,41 @@
 [editor]
-scrolloff = 10
+scrolloff = 5
 mouse = false
 middle-click-paste = true
+scroll-lines = 3
+shell = [ "sh", "-c" ]
+line-number = "absolute"
+cursorline = true
+cursorcolumn = false
+gutters = [ "spacer" ]
+auto-completion = true
+auto-format = true
+auto-save = false
+idle-timeout = 400
+preview-completion-insert = true
+completion-trigger-len = 2
+completion-replace = false
+auto-info = true
+true-color = true
+undercurl = false
+bufferline = "always"
+color-modes = true
+text-width = 80
+
+
 
 [editor.statusline]
-left = [ "mode", "file-name" ]
+left = [ "mode", "spinner", "file-name", "read-only-indicator", "file-modification-indicator" ]
+right = [ "diagnostics", "selections", "register", "position", "file-encoding" ]
+separator = "|"
+
 
 [editor.statusline.mode]
-normal = "N"
-insert = "I"
-select = "V"
+normal = "NORMAL"
+insert = "INSERT"
+select = "VISUAL"
+
+[editor.cursor-shape]
+normal = "block"
+insert = "bar"
+select = "underline"

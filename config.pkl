@@ -1,14 +1,22 @@
 amends "helix.pkl"
 
 editor{
-    scrolloff = 10    
     mouse = false
     statusline {
-        left = List("mode", "file-name")
         mode {
-            normal = "N"
-            insert = "I"
-            select = "V"
-        }
+            normal = "NORMAL"
+            insert = "INSERT"
+            select = "VISUAL"
+        }   
+    }
+    cursorline = true 
+    `true-color` = true
+    bufferline = "always"
+    gutters = List("spacer")
+    `color-modes` = true
+    `cursor-shape` {
+        normal = "block"
+        insert = "bar"
+        select = "underline"
     }
 }

@@ -4,26 +4,120 @@ output {
   renderer = new toml.Renderer {}
 }
 
-typealias LineNumber = "absolute" | "relative"
-typealias StatusLineElements = "mode" | "spinner" | "file-name"
+typealias LineNumbers ="absolute" | "relative" 
+
+typealias StatusLineElements = "mode" | "spinner" | "file-name" |
+"file-base-name" | "file-modification-indicator" | "file-encoding" |
+"file-line-ending" | "read-only-indicator" | "total-line-numbers" | "file-type"
+| "diagnostics" | "workspace-diagnostics" | "selections" |
+"primary-selection-length" | "position" | "position-percentage" | "separator" |
+"spacer" | "version-control" | "register"
+
+
+typealias Gutters = "diagnostics" |
+"spacer" | "line-numbers" | "diff" typealias Bufferline = "never" | "always" |
+"multiple"
+
+typealias CursorShapes = "block" | "bar" | "underline" | "hidden"
 
 class Mode {
-    normal: String = "NORMAL"
-    insert: String = "INSERT"
-    select: String = "SELECT"
+    normal: String = "NOR"
+    insert: String = "INS"
+    select: String = "SEL"
 }
 
 class StatusLine {
-    left: List<StatusLineElements> = List("mode", "spinner")
+    left: List<StatusLineElements> = List("mode", "spinner", "file-name", "read-only-indicator", "file-modification-indicator")
+    center: List<StatusLineElements> = List()
+    right: List<StatusLineElements> = List("diagnostics", "selections", "register", "position", "file-encoding")
+    separator: String = "|"
     mode: Mode
 }
 
+class CursorShape {
+    normal: CursorShapes = "block" 
+    insert: CursorShapes = "block" 
+    select: CursorShapes = "block" 
+}
+
 class Editor {
+
     /// Number of lines of padding around the edge of the screen when scrolling
     scrolloff: UInt = 5
+
+    /// Enable mouse mode
     mouse: Boolean = true
+
+    /// Middle click paste support
     `middle-click-paste`: Boolean = true
+
+    /// Number of lines to scroll per scroll wheel step
+    `scroll-lines`: UInt = 3
+
+    /// Shell to use when running external commands
+    shell: List<String> = List("sh", "-c") 
+
+    /// Line number display: absolute simply shows each line's number, while relative shows the distance from the current line. When unfocused or in insert mode, relative will still show absolute line numbers
+    `line-number`: LineNumbers = "absolute"
+    
+    /// Highlight all lines with a cursor
+    cursorline: Boolean = false
+
+    /// Highlight all columns with a cursor
+    cursorcolumn: Boolean = false
+
+    /// Gutters to display: Available are diagnostics and diff and line-numbers and spacer, note that diagnostics also includes other features like breakpoints, 1-width padding will be inserted if gutters is non-empty
+    gutters: List<Gutters> = List("diagnostics", "spacer", "line-numbers", "spacer", "diff")
+
+    /// Enable automatic pop up of auto-completion
+    `auto-completion`: Boolean = true
+
+    /// Enable automatic formatting on save
+    `auto-format`: Boolean = true
+
+    /// Enable automatic saving on the focus moving away from Helix. Requires focus event support from your terminal
+    `auto-save`: Boolean = false
+
+    /// Time in milliseconds since last keypress before idle timers trigger. Used for autocompletion, set to 0 for instant
+    `idle-timeout`: UInt = 400
+
+    /// Whether to apply completion item instantly when selected
+    `preview-completion-insert`: Boolean = true
+
+    /// The min-length of word under cursor to trigger autocompletion
+    `completion-trigger-len`: UInt = 2
+
+    /// Set to true to make completions always replace the entire word and not just the part before the cursor
+    `completion-replace`: Boolean = false
+
+    /// Whether to display info boxes
+    `auto-info`: Boolean = true
+
+    /// Set to true to override automatic detection of terminal truecolor support in the event of a false negative
+    `true-color`: Boolean = false
+
+    /// Set to true to override automatic detection of terminal undercurl support in the event of a false negative
+    `undercurl`: Boolean = false
+    
+    /// List of column positions at which to display the rulers. Can be overridden by language specific rulers in languages.toml file
+    rulers: List<UInt> = List()
+
+    /// Renders a line at the top of the editor displaying open buffers. Can be always, never or multiple (only shown if more than one buffer is in use)
+    bufferline: Bufferline = "never"
+
+    /// Whether to color the mode indicator with different colors depending on the mode itself
+    `color-modes`: Boolean = false
+
+    // Maximum line length. Used for the :reflow command and soft-wrapping if soft-wrap.wrap-at-text-width is set
+    `text-width`: UInt = 80
+
+    /// Directories relative to the workspace root that are treated as LSP roots. Should only be set in .helix/config.toml
+    `workspace-lsp-roots`: List<String> = List()
+    
+    
+
     statusline: StatusLine
+    `cursor-shape`: CursorShape
 }
 
 editor: Editor
