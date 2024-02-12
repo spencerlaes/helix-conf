@@ -1,0 +1,12 @@
+[editor]
+scrolloff = 10
+mouse = false
+middle-click-paste = true
+
+[editor.statusline]
+left = [ "mode", "file-name" ]
+
+[editor.statusline.mode]
+normal = "N"
+insert = "I"
+select = "V"

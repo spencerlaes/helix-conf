@@ -1,0 +1,30 @@
+import "package://pkg.pkl-lang.org/pkl-pantry/pkl.toml@1.0.0#/toml.pkl"
+
+output {
+  renderer = new toml.Renderer {}
+}
+
+typealias LineNumber = "absolute" | "relative"
+typealias StatusLineElements = "mode" | "spinner" | "file-name"
+
+class Mode {
+    normal: String = "NORMAL"
+    insert: String = "INSERT"
+    select: String = "SELECT"
+}
+
+class StatusLine {
+    left: List<StatusLineElements> = List("mode", "spinner")
+    mode: Mode
+}
+
+
+class Editor {
+    scrolloff: UInt = 5
+    mouse: Boolean = true
+    `middle-click-paste`: Boolean = true
+    statusline: StatusLine
+}
+
+editor: Editor
+

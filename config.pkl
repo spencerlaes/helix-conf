@@ -1,0 +1,14 @@
+amends "helix.pkl"
+
+editor{
+    scrolloff = 10    
+    mouse = false
+    statusline {
+        left = List("mode", "file-name")
+        mode {
+            normal = "N"
+            insert = "I"
+            select = "V"
+        }
+    }
+}
